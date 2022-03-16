@@ -2,6 +2,7 @@ import React from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
+import useWindowSize from "react-use/lib/useWindowSize";
 
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice());
@@ -16,7 +17,6 @@ export default function App() {
 
     if (allDiceValue) {
       setTenzies(!tenzies);
-      console.log("You Won");
     } else return;
   }, [dice]);
 
@@ -70,9 +70,11 @@ export default function App() {
     setTenzies(false);
   }
 
+  const { width, height } = useWindowSize();
+
   return (
     <main>
-      {tenzies && <Confetti />}
+      {tenzies && <Confetti width={width} height={height} />}
       <h2 className="heading">Tenzies</h2>
       <p className="text">
         Roll until all dice are the same. Click each die to freeze it at its current value between
