@@ -77,3 +77,16 @@ main {
 .roll-dice:active {
   box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
 }
+
+footer {
+  width: 50%;
+  display: flex;
+  align-items: end;
+  justify-content: space-evenly;
+}
+
+.volume-btn {
+  border: none;
+  background: none;
+  font-size: 2rem;
+}
