@@ -3,16 +3,26 @@ import Die from "./Die";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
+import playShuffle from "../assets/PlayHoldDice.wav";
+import playTap from "../assets/PlayTap.wav";
+import playVictory from "../assets/playVictory.wav";
 
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice());
   const [tenzies, setTenzies] = React.useState(false);
+  const playshuffle = new Audio(playShuffle);
+  const playtap = new Audio(playTap);
+  const playvictory = new Audio(playVictory);
+
+  tenzies && playvictory.play();
 
   React.useEffect(() => {
     let allDiceValue;
     dice.forEach((die, _, dice) => {
       const winningValue = die.isHeld && die.value;
-      allDiceValue = dice.every((die) => die.value === winningValue && die.isHeld);
+      allDiceValue = dice.every(
+        (die) => die.value === winningValue && die.isHeld
+      );
     });
 
     if (allDiceValue) {
@@ -38,21 +48,22 @@ export default function App() {
 
   function rollDice() {
     // prettier-ignore
-    setDice(prevDice =>
-			prevDice.map(dice => (dice.isHeld 
-        ? {... dice, value: dice.value } 
-        : generateDie()
-		)))
+    playshuffle.play()
+    setDice((prevDice) =>
+      prevDice.map((dice) =>
+        dice.isHeld ? { ...dice, value: dice.value } : generateDie()
+      )
+    );
   }
 
   function holdDice(id) {
     // prettier-ignore
-    setDice(oldDice =>
-			oldDice.map(die => die.id === id
-					? {...die, isHeld: !die.isHeld }
-					: die
-			)
-		)
+    playtap.play()
+    setDice((oldDice) =>
+      oldDice.map((die) =>
+        die.id === id ? { ...die, isHeld: !die.isHeld } : die
+      )
+    );
   }
 
   const diceElements = dice.map((die) =>
@@ -77,8 +88,8 @@ export default function App() {
       {tenzies && <Confetti width={width} height={height} />}
       <h2 className="heading">Tenzies</h2>
       <p className="text">
-        Roll until all dice are the same. Click each die to freeze it at its current value between
-        rolls.
+        Roll until all dice are the same. Click each die to freeze it at its
+        current value between rolls.
       </p>
       <div className="dice-container">{diceElements}</div>
       <button className="roll-dice" onClick={tenzies ? newGame : rollDice}>
