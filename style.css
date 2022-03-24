@@ -50,7 +50,7 @@ main {
 }
 
 .die-face:active {
-  transform: scale(0.8);
+  transform: scale(0.98);
 }
 
 .die-num {
@@ -75,7 +75,7 @@ main {
 }
 
 .roll-dice:active {
-  box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
+  transform: scale(0.99);
 }
 
 footer {
