@@ -3,6 +3,8 @@ import Die from "./Die";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
+import { BiVolumeFull, BiVolumeMute } from "react-icons/bi";
+
 import playShuffle from "../assets/PlayHoldDice.wav";
 import playTap from "../assets/PlayTap.wav";
 import playVictory from "../assets/playVictory.wav";
@@ -10,11 +12,12 @@ import playVictory from "../assets/playVictory.wav";
 export default function App() {
   const [dice, setDice] = React.useState(allNewDice());
   const [tenzies, setTenzies] = React.useState(false);
+  const [soundOn, setSoundOn] = React.useState(true);
   const playshuffle = new Audio(playShuffle);
   const playtap = new Audio(playTap);
   const playvictory = new Audio(playVictory);
 
-  tenzies && playvictory.play();
+  tenzies && soundOn && playvictory.play();
 
   React.useEffect(() => {
     let allDiceValue;
@@ -48,7 +51,7 @@ export default function App() {
 
   function rollDice() {
     // prettier-ignore
-    playshuffle.play()
+    soundOn && playshuffle.play()
     setDice((prevDice) =>
       prevDice.map((dice) =>
         dice.isHeld ? { ...dice, value: dice.value } : generateDie()
@@ -58,7 +61,7 @@ export default function App() {
 
   function holdDice(id) {
     // prettier-ignore
-    playtap.play()
+    soundOn && playtap.play()
     setDice((oldDice) =>
       oldDice.map((die) =>
         die.id === id ? { ...die, isHeld: !die.isHeld } : die
@@ -79,6 +82,7 @@ export default function App() {
   function newGame() {
     setDice(allNewDice());
     setTenzies(false);
+    !soundOn && playvictory.pause();
   }
 
   const { width, height } = useWindowSize();
@@ -92,9 +96,22 @@ export default function App() {
         current value between rolls.
       </p>
       <div className="dice-container">{diceElements}</div>
-      <button className="roll-dice" onClick={tenzies ? newGame : rollDice}>
-        {tenzies ? "New Game" : "Roll"}
-      </button>
+      <footer>
+        <button className="roll-dice" onClick={tenzies ? newGame : rollDice}>
+          {tenzies ? "New Game" : "Roll"}
+        </button>
+        <button
+          className="volume-btn"
+          onClick={() =>
+            setSoundOn((sound) => {
+              playtap.play();
+              return !sound;
+            })
+          }
+        >
+          {soundOn ? <BiVolumeFull /> : <BiVolumeMute />}
+        </button>
+      </footer>
     </main>
   );
 }
