@@ -17,7 +17,7 @@ export default function App() {
   const playtap = new Audio(playTap);
   const playvictory = new Audio(playVictory);
 
-  tenzies && playvictory.play();
+  tenzies && soundOn && playvictory.play();
 
   React.useEffect(() => {
     let allDiceValue;
@@ -82,7 +82,7 @@ export default function App() {
   function newGame() {
     setDice(allNewDice());
     setTenzies(false);
-    soundOn && playvictory.pause();
+    !soundOn && playvictory.pause();
   }
 
   const { width, height } = useWindowSize();
