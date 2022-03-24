@@ -4,6 +4,14 @@ import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { BiVolumeFull, BiVolumeMute } from "react-icons/bi";
+import {
+  CgDice1,
+  CgDice2,
+  CgDice3,
+  CgDice4,
+  CgDice5,
+  CgDice6,
+} from "react-icons/cg";
 
 import playShuffle from "../assets/PlayHoldDice.wav";
 import playTap from "../assets/PlayTap.wav";
@@ -22,9 +30,9 @@ export default function App() {
   React.useEffect(() => {
     let allDiceValue;
     dice.forEach((die, _, dice) => {
-      const winningValue = die.isHeld && die.value;
+      const winningValue = die.isHeld && die.dieFace;
       allDiceValue = dice.every(
-        (die) => die.value === winningValue && die.isHeld
+        (die) => die.dieFace === winningValue && die.isHeld
       );
     });
 
@@ -34,8 +42,52 @@ export default function App() {
   }, [dice]);
 
   function generateDie() {
+    let die = {
+      id: "",
+      value: "",
+    };
+    const random = Math.ceil(Math.random() * 6);
+    switch (random) {
+      case 1:
+        die = {
+          id: 1,
+          value: <CgDice1 />,
+        };
+        break;
+      case 2:
+        die = {
+          id: 2,
+          value: <CgDice2 />,
+        };
+        break;
+      case 3:
+        die = {
+          id: 3,
+          value: <CgDice3 />,
+        };
+        break;
+      case 4:
+        die = {
+          id: 4,
+          value: <CgDice4 />,
+        };
+        break;
+      case 5:
+        die = {
+          id: 5,
+          value: <CgDice5 />,
+        };
+        break;
+      case 6:
+        die = {
+          id: 6,
+          value: <CgDice6 />,
+        };
+        break;
+    }
     return {
-      value: Math.ceil(Math.random() * 6),
+      value: die.value,
+      dieFace: die.id,
       isHeld: false,
       id: nanoid(),
     };
@@ -82,7 +134,7 @@ export default function App() {
   function newGame() {
     setDice(allNewDice());
     setTenzies(false);
-    !soundOn && playvictory.pause();
+    soundOn && playvictory.pause();
   }
 
   const { width, height } = useWindowSize();
