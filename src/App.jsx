@@ -142,15 +142,15 @@ export default function App() {
   return (
     <main>
       {tenzies && <Confetti width={width} height={height} />}
-      <h2 className="heading">Tenzies</h2>
+      <h2 className="heading">🎲 10-Zee's 🎲</h2>
       <p className="text">
-        Roll until all dice are the same. Click each die to freeze it at its
-        current value between rolls.
+        Roll🎲 until all dice are the same. Click each die to freeze🧊 it at its
+        current value between rolls 😜.
       </p>
       <div className="dice-container">{diceElements}</div>
       <footer>
         <button className="roll-dice" onClick={tenzies ? newGame : rollDice}>
-          {tenzies ? "New Game" : "Roll"}
+          {tenzies ? "New Game" : "Roll 🧻"}
         </button>
         <button
           className="volume-btn"
