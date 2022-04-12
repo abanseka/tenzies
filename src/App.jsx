@@ -64,12 +64,12 @@ export default function App() {
 
   const diceElements = dice.map((die) =>
     // prettier-ignore
-    <Die 
-      key={die.id} 
-      value={die.value} 
-      isHeld={die.isHeld} 
-      holdDice={() => holdDice(die.id)} 
-      />
+    <Die
+      key={die.id}
+      value={die.value}
+      isHeld={die.isHeld}
+      holdDice={() => holdDice(die.id)}
+    />
   );
 
   function newGame() {
